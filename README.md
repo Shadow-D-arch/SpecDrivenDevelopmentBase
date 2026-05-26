@@ -62,3 +62,29 @@ curl "http://localhost:8000/reports?limit=3" | python -m json.tool
 | `offset`     | int (>=0)       | `0`          | Pagination offset.                               |
 | `limit`      | int (1..200)    | `20`         | Page size.                                       |
 
+| GET    | `/reports/summary` | Aggregate summary of reports with optional filtering. |
+
+### `GET /reports/summary` query parameters
+
+| Param       | Type           | Default | Notes                                   |
+| ----------- | -------------- | ------- | --------------------------------------- |
+| `status`    | enum           | —       | One of `pending`, `approved`, `rejected`, `archived`. |
+| `date_from` | datetime (ISO) | —       | Lower bound on `created_at` (inclusive). |
+| `date_to`   | datetime (ISO) | —       | Upper bound on `created_at` (inclusive). |
+
+Example:
+
+```bash
+curl "http://localhost:8000/reports/summary" | python -m json.tool
+curl "http://localhost:8000/reports/summary?status=approved" | python -m json.tool
+```
+
+### `GET /reports/summary` response
+
+Response JSON shape:
+
+- `total_reports`: integer
+- `total_amount`: number
+- `average_amount`: number
+- `counts_by_status`: object mapping status to count
+- `top_3_owners_by_amount`: array of `{ "owner": string, "total_amount": number }`

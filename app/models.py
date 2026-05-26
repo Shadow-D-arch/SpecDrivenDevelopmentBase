@@ -56,3 +56,18 @@ class ReportListResponse(BaseModel):
     total: int = Field(description="Total number of rows matching the filter")
     offset: int
     limit: int
+
+
+class OwnerAmount(BaseModel):
+    owner: str
+    total_amount: float
+
+
+class ReportSummary(BaseModel):
+    """Aggregated summary of reports matching the applied filters."""
+
+    total_reports: int
+    total_amount: float
+    average_amount: float
+    counts_by_status: dict[str, int]
+    top_3_owners_by_amount: list[OwnerAmount]
