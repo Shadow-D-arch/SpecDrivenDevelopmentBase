@@ -6,8 +6,8 @@ from datetime import datetime
 
 from fastapi import FastAPI, HTTPException, Query
 
-from app.models import ReportListResponse, ReportPublic, ReportStatus
-from app.reports import query
+from app.models import ReportListResponse, ReportPublic, ReportStatus, ReportSummary
+from app.reports import query, summarize
 
 app = FastAPI(title="SDD Workshop — Reports API", version="0.1.0")
 
@@ -51,3 +51,14 @@ def list_reports(
         offset=offset,
         limit=limit,
     )
+
+
+@app.get("/reports/summary", response_model=ReportSummary)
+def reports_summary(
+    status: ReportStatus | None = Query(None, description="Filter by status"),
+    date_from: datetime | None = Query(None, description="Lower bound on created_at (inclusive)"),
+    date_to: datetime | None = Query(None, description="Upper bound on created_at (inclusive)"),
+) -> ReportSummary:
+    """Return aggregate statistics for reports matching the optional filters."""
+
+    return summarize(status=status, date_from=date_from, date_to=date_to)
