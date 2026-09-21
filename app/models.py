@@ -1,11 +1,4 @@
 """Pydantic models for the Reports app.
-
-Conventions:
-  * `Report` is the raw, internal model — includes fields like `internal_id` and
-    `owner_email` that MUST NEVER be exposed to end users.
-  * `ReportPublic` is the response model used in public API responses. It explicitly
-    omits the internal fields.
-
 The CSV export feature added during the workshop must also honor this distinction.
 """
 

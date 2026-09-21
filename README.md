@@ -62,4 +62,3 @@ curl "http://localhost:8000/reports?limit=3" | python -m json.tool
 | `offset`     | int (>=0)       | `0`          | Pagination offset.                               |
 | `limit`      | int (1..200)    | `20`         | Page size.                                       |
 
-Responses only include public fields — `internal_id` and `owner_email` are stripped on the way out.
